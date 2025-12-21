@@ -250,7 +250,205 @@ Ubuntu 基本通过 apt 就可以完整这些软件的安装了。注意进入 c
 
 地址：[https://gitcode.com/Yao__Shun__Yu/xfg-dev-tech-docker-install/blob/main/environment/maven/apache-maven-3.8.8/conf/settings.xml](https://gitcode.com/Yao__Shun__Yu/xfg-dev-tech-docker-install/blob/main/environment/maven/apache-maven-3.8.8/conf/settings.xml)
 
+#### 2.4 软件安装（MySQL、Redis）
+
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install# cd software/
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install/software# ls
+docker-compose-software-aliyun.yml  grafana  logstash  pgvector    rabbitmq
+docker-compose-software.yml         kibana   mysql     prometheus  redis
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install/software# cd ..
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install# ls
+centos_install_docker.sh            help.md                  software
+centos_run_install_docker_local.sh  README.md                ubuntu_install_docker.sh
+environment                         run_install_software.sh  ubuntu_run_install_docker_local.sh
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install# chmod +x run_install_software.sh 
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install# ./run_install_software.sh 
+[INFO] 当前磁盘空间信息：总空间 40G，已使用 4.3G，可用 34G，使用率 12%
+-----------------------------------------------------------
+[HEADER] 选择配置文件：
+-----------------------------------------------------------
+1. 使用原始配置文件 (推荐，但可能需要从Docker Hub拉取镜像)
+2. 使用阿里云镜像配置文件 (国内网络环境推荐)
+-----------------------------------------------------------
+请选择配置文件 [1/2] (默认: 1): 1
+[INFO] 已选择使用原始配置文件
+-----------------------------------------------------------
+[HEADER] 可安装的软件列表：
+-----------------------------------------------------------
+1. nacos (预计占用空间: 500MB)
+2. mysql (预计占用空间: 600MB)
+3. phpmyadmin (预计占用空间: 100MB)
+4. redis (预计占用空间: 50MB)
+5. redis-admin (预计占用空间: 50MB)
+6. rabbitmq (预计占用空间: 300MB)
+7. elasticsearch (预计占用空间: 500MB)
+8. logstash (预计占用空间: 300MB)
+9. kibana (预计占用空间: 200MB)
+10. xxl-job-admin (预计占用空间: 150MB)
+11. prometheus (预计占用空间: 100MB)
+12. grafana (预计占用空间: 100MB)
+13. ollama (预计占用空间: 200MB)
+14. pgvector (预计占用空间: 150MB)
+15. pgvector-admin (预计占用空间: 50MB)
+-----------------------------------------------------------
+请选择要安装的软件（多选，用空格分隔，如：1 3 5）：
+2 3
+-----------------------------------------------------------
+[HEADER] 您选择了以下软件：
+- phpmyadmin (预计占用空间: 100MB)
+- mysql (预计占用空间: 600MB)
+总计预计占用空间: 700MB
+-----------------------------------------------------------
+-----------------------------------------------------------
+[HEADER] MySQL初始化提示：
+-----------------------------------------------------------
+[INFO] 您选择了安装MySQL，安装完成后可以使用phpmyadmin进行管理
+[INFO] 如果您希望在初始化时创建数据库和表，可以将SQL脚本放在以下目录：
+  /dev-ops/xfg-dev-tech-docker-install/software/mysql/sql/
+[INFO] 目前该目录已包含以下SQL文件：
+  - init.sql
+  - nacos.sql
+  - xxl_job.sql
+[INFO] 您可以添加自己的SQL文件到该目录，它们将在MySQL初始化时自动执行
+-----------------------------------------------------------
+确认安装以上软件？(y/n): y
+[INFO] 正在检查服务依赖关系...
+[INFO] 开始安装选中的软件...
+[+] Running 34/34
+ ✔ phpmyadmin 21 layers [⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿]      0B/0B      Pulled                              499.9s 
+   ✔ 858a356e9dad Pull complete                                                                       1.7s 
+ ✔ Container phpmyadmin         Started                                                               5.8s 
+[INFO] 软件安装完成！
+-----------------------------------------------------------
+[HEADER] 已安装的软件及访问信息：
+- phpmyadmin: 访问地址：http://服务器IP:8899 (连接到MySQL)
+- mysql: 账号：root 密码：123456 端口：13306
+[INFO] MySQL已安装成功，您可以使用phpmyadmin进行管理
+[INFO] 初始化SQL脚本已自动执行，包括：
+  - init.sql
+  - nacos.sql
+  - xxl_job.sql
+-----------------------------------------------------------
+[INFO] 如需修改账号密码，请编辑 /dev-ops/xfg-dev-tech-docker-install/software/docker-compose-software.yml 文件
+[INFO] 修改后，重新运行此脚本即可更新配置  
+```
+
+- 执行提供好的脚本，即可完成各项软件的安装。其他的软件，也可以搜索教程安装。
+
+### 3. 应用配置
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-04.png" width="750px">
+</div>
+
+- 云服务器环境 Docker + Portainer（管理docker的软件） 以及软件安装完成后，你就可以在你的 IntelliJ IDEA 的程序里配置对应的连接信息了。这样你的本地就可以连接到云服务器上的 Docker 里安装的 MySQL 了。
+- Docker 是非常常用的软件，也是非常好用的软件，对于开发学习部署和卸载各类软件都非常方便，不会破坏本地环境。
+
 ## 四、项目部署
+
+Docker 部署项目需要的是程序的镜像，镜像的目的是把一个程序运行所需的各类环境都给打包进行，等运行部署的时候直接执行即可。
+
+所以，这里我们会通过各种方式来完成镜像的构建和部署，包括；
+| 方案                                                         | 复杂度 |
+| ------------------------------------------------------------ | ------ |
+| 本地打包Jar + 云上构建镜像。                                 | ⭐️⭐️     |
+| 云上打包Jar + 云上构建镜像。                                 | ⭐️⭐️⭐️    |
+| 本地打包Jar + 本地构建镜像 + 上传到阿里云 Docker 镜像仓库 + 云上拉取构建 | ⭐️⭐️⭐️⭐️   |
+
+### 1. 文件配置
+
+#### 1.1 dockerfile
+
+```java
+# 基础镜像 openjdk:8-jre-slim
+FROM registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim
+
+# 作者
+MAINTAINER xiaofuge
+
+# 配置
+ENV PARAMS=""
+
+# 时区
+ENV TZ=PRC
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
+# 添加应用
+ADD target/xfg-dev-tech-docker-deploy-app.jar /xfg-dev-tech-docker-deploy-app.jar
+
+ENTRYPOINT ["sh","-c","java -jar $JAVA_OPTS /xfg-dev-tech-docker-deploy-app.jar $PARAMS"]
+```
+
+- 这里配置了构建镜像的地址信息。
+
+#### 1.2 build.sh
+
+```java
+# 普通镜像构建，随系统版本构建 amd/arm
+docker build -t system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT -f ./Dockerfile .
+
+# 兼容 amd、arm 构建镜像
+# docker buildx build --load --platform liunx/amd64,linux/arm64 -t xiaofuge/xfg-frame-archetype-app:1.0 -f ./Dockerfile . --push
+```
+
+- 配置了构建镜像的名称。
+
+### 2. 获取镜像
+
+#### 2.1 本地打包Jar + 云上构建镜像
+
+##### 2.1.1 构建jar 
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-05.png" width="750px">
+</div>
+
+- 在本地 install 构建项目 jar，target 目录下可以只保留项目的 jar 其他的删掉就可以。
+
+##### 2.1.2 上传jar
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-06.png" width="750px">
+</div>
+
+- 把本地构建的jar，通过 sftp 把整个 xfg-dev-tech-deploy-app 上传到云服务器。
+
+##### 2.1.3 构建镜像
+
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops# ls
+xfg-dev-tech-docker-deploy-app  xfg-dev-tech-docker-install
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops# cd xfg-dev-tech-docker-deploy-app/
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy-app# ls
+build.sh  Dockerfile  pom.xml  src  target
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy-app# chmod +x build.sh 
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy-app# ./build.sh 
+[+] Building 64.5s (8/8) FINISHED                                                           docker:default
+ => [internal] load build definition from Dockerfile                                                  0.0s
+ => => transferring dockerfile: 484B                                                                  0.0s
+ => WARN: MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 5  0.0s
+ => [internal] load metadata for registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim      0.7s
+ => [internal] load .dockerignore                                                                     0.0s
+ => => transferring context: 2B                                                                       0.0s
+...
+ => => unpacking to docker.io/system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT                      0.1s
+
+ 1 warning found (use docker --debug to expand):
+ - MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 5)
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy-app# docker images
+                                                                                       i Info →   U  In Use
+IMAGE                                                      ID             DISK USAGE   CONTENT SIZE   EXTRA
+mysql:8.0.32                                               f496c25da703        728MB          157MB    U   
+phpmyadmin:5.2.1                                           6e75aa8f767c        798MB          193MB    U   
+registry.cn-hangzhou.aliyuncs.com/xfg-studio/portainer:latest
+                                                           11384457b374        374MB         86.8MB    U   
+system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT         14e1cd401829        332MB         98.2MB  
+```
+
+- 通过这样的方式就把整个镜像构建出来，`docker images` 可以查看镜像列表，system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT 就是咱们构建的镜像。
+
+### 2.2 云上打包Jar + 云上构建镜像
 
 
 

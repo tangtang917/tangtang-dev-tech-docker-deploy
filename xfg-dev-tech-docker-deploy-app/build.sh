@@ -1,4 +1,3 @@
-
 # 普通镜像构建，随系统版本构建 amd/arm
 docker build -t system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT -f ./Dockerfile .
 
