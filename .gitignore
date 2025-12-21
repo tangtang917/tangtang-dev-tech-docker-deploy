@@ -39,3 +39,4 @@ build/
 /data/
 /.mvn/
 /.idea/
+/xfg-dev-tech-docker-deploy-app/.local-config

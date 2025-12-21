@@ -1,8 +1,8 @@
-# 基础镜像 openjdk:8-jre-slim
-FROM registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim
+# 基础镜像 openjdk:8-jre-slim registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim
+FROM registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:17-ea-17-jdk-slim-buster
 
 # 作者
-MAINTAINER xiaofuge
+LABEL maintainer="xiaofuge"
 
 # 配置
 ENV PARAMS=""

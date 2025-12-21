@@ -394,11 +394,11 @@ docker build -t system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT -f ./Dockerfi
 
 - 配置了构建镜像的名称。
 
-### 2. 获取镜像
+### 2. 构建镜像
 
 #### 2.1 本地打包Jar + 云上构建镜像
 
-##### 2.1.1 构建jar 
+##### 2.1.1 打包jar 
 
 <div align="center">
     <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-05.png" width="750px">
@@ -448,7 +448,160 @@ system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT         14e1cd401829        3
 
 - 通过这样的方式就把整个镜像构建出来，`docker images` 可以查看镜像列表，system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT 就是咱们构建的镜像。
 
-### 2.2 云上打包Jar + 云上构建镜像
+#### 2.2 云上打包Jar + 云上构建镜像
 
+##### 2.2.1 拉取项目
 
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy# ls
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy# git clone https://github.com/fuzhengwei/xfg-dev-tech-docker-deploy.git
+Cloning into 'xfg-dev-tech-docker-deploy'...
+remote: Enumerating objects: 176, done.
+remote: Counting objects: 100% (176/176), done.
+remote: Compressing objects: 100% (87/87), done.
+remote: Total 176 (delta 23), reused 175 (delta 22), pack-reused 0 (from 0)
+Receiving objects: 100% (176/176), 75.84 KiB | 40.00 KiB/s, done.
+Resolving deltas: 100% (23/23), done.
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy# ls
+xfg-dev-tech-docker-deploy
+```
 
+- 通过 git clone 命令，拉取项目。
+
+##### 2.2.2 打包jar
+
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy# ls
+docs  pom.xml  README.md  xfg-dev-tech-docker-deploy-app
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy# mvn clean install
+[INFO] Scanning for projects...
+Downloading from central: https://repo.maven.apache.org/maven2/org/springframework/boot/spring-boot-starter-parent/2.7.12/spring-boot-starter-parent-2.7.12.pom
+...
+[INFO] ------------------------------------------------------------------------
+[INFO] Reactor Summary for xfg-dev-tech-docker-deploy 1.0-SNAPSHOT:
+[INFO] 
+[INFO] xfg-dev-tech-docker-deploy ......................... SUCCESS [  0.219 s]
+[INFO] xfg-dev-tech-docker-deploy-app ..................... SUCCESS [05:29 min]
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESS
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time:  05:29 min
+[INFO] Finished at: 2025-12-21T10:56:57+08:00
+[INFO] ------------------------------------------------------------------------
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy# ls
+docs  pom.xml  README.md  xfg-dev-tech-docker-deploy-app  
+```
+
+- 进入到项目，通过 `mvn clean install` 打包项目 jar
+
+##### 2.2.3 构建镜像
+
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy-app# ls
+build.sh  Dockerfile  pom.xml  src  target
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy-app# chmod +x build.sh 
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy-app# cat build.sh 
+# 普通镜像构建，随系统版本构建 amd/arm
+docker build -t system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT -f ./Dockerfile .
+
+# 兼容 amd、arm 构建镜像
+# docker buildx build --load --platform liunx/amd64,linux/arm64 -t xiaofuge/xfg-frame-archetype-app:1.0 -f ./Dockerfile . --pushroot@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy-app# ./build.sh 
+[+] Building 1.3s (8/8) FINISHED                                                                                               docker:default
+ => [internal] load build definition from Dockerfile                                                                                     0.0s
+ => => transferring dockerfile: 484B                                                                                                     0.0s
+ => WARN: MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 5)                                    0.0s
+ => [internal] load metadata for registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim                                         0.4s
+ => [internal] load .dockerignore                                                                                                        0.0s
+ => => transferring context: 2B                                                                                                          0.0s
+ => [1/3] FROM registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim@sha256:285c61a1e5e6b7b3709729b69558670148c5fdc6eb7104fae  0.0s
+ => => resolve registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim@sha256:285c61a1e5e6b7b3709729b69558670148c5fdc6eb7104fae  0.0s
+ => [internal] load build context                                                                                                        0.1s
+ => => transferring context: 26.15MB                                                                                                     0.1s
+ => CACHED [2/3] RUN ln -snf /usr/share/zoneinfo/PRC /etc/localtime && echo PRC > /etc/timezone                                          0.0s
+ => [3/3] ADD target/xfg-dev-tech-docker-deploy-app.jar /xfg-dev-tech-docker-deploy-app.jar                                              0.0s
+ => exporting to image                                                                                                                   0.7s
+ => => exporting layers                                                                                                                  0.6s
+ => => exporting manifest sha256:14e4dd6822541669e1ac4c0c6957c74be06f401556ffca134fa42133df9dacb1                                        0.0s
+ => => exporting config sha256:f4581c52995e78750c432c2bd3c7bcaa393398ee7d7d62c331ccb69c2825a724                                          0.0s
+ => => exporting attestation manifest sha256:5c7a6af7000015669c2e5dccd10d74b68357359994f42a5e211883ab2b0d7335                            0.0s
+ => => exporting manifest list sha256:335d04f3bc894e32e70b2c126a6e0abccd4c6136d44e6b9c1f0060e492816419                                   0.0s
+ => => naming to docker.io/system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT                                                            0.0s
+ => => unpacking to docker.io/system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT                                                         0.1s
+
+ 1 warning found (use docker --debug to expand):
+ - MaintainerDeprecated: Maintainer instruction is deprecated in favor of using label (line 5)
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy/xfg-dev-tech-docker-deploy-app# docker images
+                                                                                                                          i Info →   U  In Use
+IMAGE                                                           ID             DISK USAGE   CONTENT SIZE   EXTRA
+mysql:8.0.32                                                    f496c25da703        728MB          157MB    U   
+phpmyadmin:5.2.1                                                6e75aa8f767c        798MB          193MB    U   
+registry.cn-hangzhou.aliyuncs.com/xfg-studio/portainer:latest   11384457b374        374MB         86.8MB    U   
+system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT              14e1cd401829        332MB         98.2MB        
+system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT              335d04f3bc89        332MB         98.2MB       
+```
+
+- 这样，就在云服务器把项目镜像构建出来了。
+
+#### 2.3 阿里云 DockerHub
+
+##### 2.3.1 账号申请
+
+官网：[https://cr.console.aliyun.com/cn-hangzhou/instance/dashboard](https://cr.console.aliyun.com/cn-hangzhou/instance/dashboard)
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-07.png" width="750px">
+</div>
+
+- 如图所示，申请账号，创建个人的命名空间。步骤3、4可选。
+- 之后你这里可以手动操作上传镜像，也可以走下面的流程自动操作。
+
+##### 2.3.2 上传镜像
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-08.png" width="950px">
+</div>
+
+- 在项目下，有一个 push.sh 文件，可以把镜像推送到阿里云 DockerHub 镜像库。这样操作的目的是有个统一地方来维护镜像，各个云服务器都可以拉取部署了。
+- 推送后，可以到仓库查看镜像 [https://cr.console.aliyun.com/cn-hangzhou/instance/repositories](https://cr.console.aliyun.com/cn-hangzhou/instance/repositories)
+
+### 3. 项目部署
+
+#### 3.1 脚本说明
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-09.png" width="950px">
+</div>
+
+- 这里的镜像名称，要修改成你的镜像名称。
+
+#### 3.2 上传脚本
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-10.png" width="950px">
+</div>
+
+- 上传项目下的部署脚本到云服务器，dev-ops 创建个文件夹。
+
+#### 3.3 执行部署
+
+```java
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/docker-compose# ls
+app  docker-compose-app.yml  docker-compose-environment-aliyun.yml  docker-compose-environment.yml  mysql
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/docker-compose# docker-compose -f docker-compose-app.yml up -d
+[+] Running 6/6
+ ✔ xfg-dev-tech-docker-deploy 5 layers [⣿⣿⣿⣿⣿]      0B/0B      Pulled                                                                  205.7s 
+   ✔ f355a2e0723d Pull complete                                                                                                         34.0s 
+   ✔ f7ec5a41d630 Pull complete                                                                                                         65.9s 
+   ✔ b747e468795b Pull complete                                                                                                        203.7s 
+   ✔ 88f5ee065d77 Pull complete                                                                                                          0.3s 
+   ✔ faf4c47c8c61 Pull complete                                                                                                         36.0s 
+[+] Running 1/2
+ ⠋ Network docker-compose_my-network     Created                                                                                         2.0s 
+ ✔ Container xfg-dev-tech-docker-deploy  Started                                                                                         1.9s 
+root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/docker-compose# 
+```
+
+<div align="center">
+    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-11.png" width="950px">
+</div>
+- 部署后，就可以访问服务看最终的效果了！

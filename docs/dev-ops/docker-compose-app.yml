@@ -4,7 +4,9 @@ version: '3.8'
 # 你需要修改system为你自身系统的仓库名
 services:
   xfg-dev-tech-docker-deploy:
-    image: system/xfg-dev-tech-docker-deploy:1.0-SNAPSHOT
+    #image: system/xfg-dev-tech-docker-deploy:1.0-SNAPSHOT
+    #image: fuzhengwei/xfg-dev-tech-docker-deploy:1.0-SNAPSHOT
+    image: registry.cn-hangzhou.aliyuncs.com/fuzhengwei/xfg-dev-tech-docker-deploy-app:1.2-SNAPSHOT
     container_name: xfg-dev-tech-docker-deploy
     restart: on-failure
     ports:
@@ -14,7 +16,7 @@ services:
       - SERVER_PORT=8091
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=123456
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/big_market?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
+      - SPRING_DATASOURCE_URL=jdbc:mysql://云服务IP:13306/big_market?serverTimezone=UTC&characterEncoding=utf8&autoReconnect=true&serverTimezone=Asia/Shanghai
       - SPRING_DATASOURCE_DRIVER_CLASS_NAME=com.mysql.cj.jdbc.Driver
       - SPRING_HIKARI_POOL_NAME=Retail_HikariCP
       - REDIS_SDK_CONFIG_HOST=redis
