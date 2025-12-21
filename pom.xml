@@ -8,12 +8,7 @@
     <packaging>pom</packaging>
 
     <modules>
-        <module>xfg-dev-tech-docker-deploy-api</module>
         <module>xfg-dev-tech-docker-deploy-app</module>
-        <module>xfg-dev-tech-docker-deploy-domain</module>
-        <module>xfg-dev-tech-docker-deploy-trigger</module>
-        <module>xfg-dev-tech-docker-deploy-infrastructure</module>
-        <module>xfg-dev-tech-docker-deploy-types</module>
     </modules>
 
     <repositories>
