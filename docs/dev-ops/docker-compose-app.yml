@@ -7,7 +7,7 @@ services:
     #image: system/xfg-dev-tech-docker-deploy:1.0-SNAPSHOT
     #image: fuzhengwei/xfg-dev-tech-docker-deploy:1.0-SNAPSHOT
 #    image: registry.cn-hangzhou.aliyuncs.com/fuzhengwei/xfg-dev-tech-docker-deploy-app:1.2-SNAPSHOT
-    image: fuzhengwei/xfg-dev-tech-docker-deploy-app:1.4-SNAPSHOT
+    image: fuzhengwei/xfg-dev-tech-docker-deploy-app:1.5-SNAPSHOT
     container_name: xfg-dev-tech-docker-deploy
     restart: on-failure
     ports:

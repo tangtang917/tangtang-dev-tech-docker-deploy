@@ -11,7 +11,7 @@ set -e
 ALIYUN_REGISTRY="registry.cn-hangzhou.aliyuncs.com"
 NAMESPACE="fuzhengwei"
 IMAGE_NAME="xfg-dev-tech-docker-deploy-app"
-IMAGE_TAG="1.2-SNAPSHOT"
+IMAGE_TAG="1.5-SNAPSHOT"
 
 # 读取本地配置文件
 if [ -f ".local-config" ]; then
