@@ -1,4 +1,4 @@
-# 云服务器部署工程方法
+# Docker 部署项目
 
 作者：小傅哥
 <br/>博客：[https://bugstack.cn](https://bugstack.cn)
@@ -21,12 +21,20 @@
 
 >文末提供了，5个AI项目、5个业务项目、8个组件项目、1套源码项目，还有非常多的学习资料，你可以全部获取学习，积累来自互联网大厂的经验。
 
+## 零、所需资源
+
+- [购买云服务器 2c4g](http://618.gaga.plus/)
+- [工程案例代码 xfg-dev-tech-docker-deploy](https://github.com/fuzhengwei/xfg-dev-tech-docker-deploy)
+- [云服务器安装脚本](https://gaga.plus/app/dev-ops/index.html)
+- [云服务器连接工具](https://origin.bugstack.cn/md/road-map/tool.html)
+- [阿里云docker镜像仓库](https://cr.console.aliyun.com/cn-hangzhou/instance/repositories)
+
 ## 一、云服务器是什么？
 
 在使用云服务器之前，我们先来理解下云服务器是什么，把定位搞清楚，后面的事才好办。如图；
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-01.png" width="650px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-01.png" width="650px">
 </div>
 
 - 云服务器，你可以理解为是你的书桌上摆着的2台电脑。你可以通过其中一台电脑，以 SSH 方式连接另外一台电脑，并在另外一台电脑安装 MySQL、Redis、Ollama 等，以减轻当前这台电脑的压力。让手里的这台电脑只负责代码开发，需要什么资源就连接另外一台电脑的上软件即可。
@@ -39,7 +47,7 @@
 为了，让小伙伴们，先不需要看非常的多的资料，就能快速的使用起这些命令。这里小傅哥做了个模拟 Linux 服务器，进行命令练习的网页，你可以通过页面的模拟建立 SSH 连接，之后学习这些命令。
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-02.png" width="750px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-02.png" width="750px">
 </div>
 
 地址：[https://gaga.plus/app/dev-ops/tutorials/what-is-a-cloud-server.html](https://gaga.plus/app/dev-ops/tutorials/what-is-a-cloud-server.html)
@@ -53,7 +61,7 @@
 在你首次购买和设置云服务器的时候，它会让你选择需要安装的系统（也可以重置重新安装），安装完成后你就可以通过命令操作，部署 Docker 以及安装软件了。
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-03.png" width="550px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-03.png" width="550px">
 </div>
 
 这里比较推荐 Centos 7.6、7.9 或则 Ubuntu 24+，这两个系统，我已经做好了一键安装脚本，可以让你非常方便的把 Docker 以及一些常用的软件，全部安装完成。
@@ -339,7 +347,7 @@ root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/xfg-dev-tech-docker-install# ./run_install
 ### 3. 应用配置
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-04.png" width="750px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-04.png" width="750px">
 </div>
 
 - 云服务器环境 Docker + Portainer（管理docker的软件） 以及软件安装完成后，你就可以在你的 IntelliJ IDEA 的程序里配置对应的连接信息了。这样你的本地就可以连接到云服务器上的 Docker 里安装的 MySQL 了。
@@ -398,10 +406,10 @@ docker build -t system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT -f ./Dockerfi
 
 #### 2.1 本地打包Jar + 云上构建镜像
 
-##### 2.1.1 打包jar 
+##### 2.1.1 打包jar
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-05.png" width="750px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-05.png" width="750px">
 </div>
 
 - 在本地 install 构建项目 jar，target 目录下可以只保留项目的 jar 其他的删掉就可以。
@@ -409,7 +417,7 @@ docker build -t system/xfg-dev-tech-docker-deploy-app:1.0-SNAPSHOT -f ./Dockerfi
 ##### 2.1.2 上传jar
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-06.png" width="750px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-06.png" width="750px">
 </div>
 
 - 把本地构建的jar，通过 sftp 把整个 xfg-dev-tech-deploy-app 上传到云服务器。
@@ -549,7 +557,7 @@ system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT              335d04f3bc89    
 官网：[https://cr.console.aliyun.com/cn-hangzhou/instance/dashboard](https://cr.console.aliyun.com/cn-hangzhou/instance/dashboard)
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-07.png" width="750px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-07.png" width="750px">
 </div>
 
 - 如图所示，申请账号，创建个人的命名空间。步骤3、4可选。
@@ -558,7 +566,7 @@ system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT              335d04f3bc89    
 ##### 2.3.2 上传镜像
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-08.png" width="950px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-08.png" width="950px">
 </div>
 
 - 在项目下，有一个 push.sh 文件，可以把镜像推送到阿里云 DockerHub 镜像库。这样操作的目的是有个统一地方来维护镜像，各个云服务器都可以拉取部署了。
@@ -569,7 +577,7 @@ system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT              335d04f3bc89    
 #### 3.1 脚本说明
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-09.png" width="950px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-09.png" width="950px">
 </div>
 
 - 这里的镜像名称，要修改成你的镜像名称。
@@ -577,7 +585,7 @@ system/xfg-dev-tech-docker-deploy-app:1.1-SNAPSHOT              335d04f3bc89    
 #### 3.2 上传脚本
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-10.png" width="950px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-10.png" width="950px">
 </div>
 
 - 上传项目下的部署脚本到云服务器，dev-ops 创建个文件夹。
@@ -602,6 +610,7 @@ root@iv-ydw2iok0lcbw80bxaha0:/dev-ops/docker-compose#
 ```
 
 <div align="center">
-    <img src="/Users/fuzhengwei/Desktop/road-map-docker-deploy-11.png" width="950px">
+    <img src="https://bugstack.cn/images/roadmap/tutorial/road-map-docker-deploy-11.png" width="950px">
 </div>
-- 部署后，就可以访问服务看最终的效果了！
+
+- 部署后，就可以访问服务看最终的效果了！**
