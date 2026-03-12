@@ -2,7 +2,7 @@
 FROM registry.cn-hangzhou.aliyuncs.com/xfg-studio/openjdk:8-jre-slim
 
 # 作者
-LABEL maintainer="xiaofuge"
+LABEL maintainer="tangtang"
 
 # 配置
 ENV PARAMS=""
